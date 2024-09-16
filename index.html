@@ -1,162 +1,318 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
-.w3-bar-block .w3-bar-item {padding:20px}
-</style>
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- This adapter normalizes cross-browser differences in WebRTC APIs. Currently necessary in order to support Firefox. -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.1.2/adapter.min.js"
+      integrity="sha512-l40eBFtXx+ve5RryIELC3y6/OM6Nu89mLGQd7fg1C93tN6XrkC3supb+/YiD/Y+B8P37kdJjtG1MT1kOO2VzxA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
 
-<!-- Sidebar (hidden by default) -->
-<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()"
-  class="w3-bar-item w3-button">Close Menu</a>
-  <a href="#food" onclick="w3_close()" class="w3-bar-item w3-button">Food</a>
-  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">About</a>
-</nav>
 
-<!-- Top menu -->
-<div class="w3-top">
-  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-    <div class="w3-right w3-padding-16">Mail</div>
-    <div class="w3-center w3-padding-16">My Food</div>
-  </div>
-</div>
-  
-<!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
-
-  <!-- First Photo Grid-->
-  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
-    <div class="w3-quarter">
-      <img src="/w3images/sandwich.jpg" alt="Sandwich" style="width:100%">
-      <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/steak.jpg" alt="Steak" style="width:100%">
-      <h3>Let Me Tell You About This Steak</h3>
-      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/cherries.jpg" alt="Cherries" style="width:100%">
-      <h3>Cherries, interrupted</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-      <p>What else?</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/wine.jpg" alt="Pasta and Wine" style="width:100%">
-      <h3>Once Again, Robust Wine and Vegetable Pasta</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-  </div>
-  
-  <!-- Second Photo Grid-->
-  <div class="w3-row-padding w3-padding-16 w3-center">
-    <div class="w3-quarter">
-      <img src="/w3images/popsicle.jpg" alt="Popsicle" style="width:100%">
-      <h3>All I Need Is a Popsicle</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/salmon.jpg" alt="Salmon" style="width:100%">
-      <h3>Salmon For Your Skin</h3>
-      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/sandwich.jpg" alt="Sandwich" style="width:100%">
-      <h3>The Perfect Sandwich, A Real Classic</h3>
-      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/w3images/croissant.jpg" alt="Croissant" style="width:100%">
-      <h3>Le French</h3>
-      <p>Lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-  </div>
-
-  <!-- Pagination -->
-  <div class="w3-center w3-padding-32">
-    <div class="w3-bar">
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
-      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
-    </div>
-  </div>
-  
-  <hr id="about">
-
-  <!-- About Section -->
-  <div class="w3-container w3-padding-32 w3-center">  
-    <h3>About Me, The Food Man</h3><br>
-    <img src="/w3images/chef.jpg" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
-    <div class="w3-padding-32">
-      <h4><b>I am Who I Am!</b></h4>
-      <h6><i>With Passion For Real, Good Food</i></h6>
-      <p>Just me, myself and I, exploring the universe of unknownment. I have a heart of love and an interest of lorem ipsum and mauris neque quam blog. I want to share my world with you. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-    </div>
-  </div>
-  <hr>
-  
-  <!-- Footer -->
-  <footer class="w3-row-padding w3-padding-32">
-    <div class="w3-third">
-      <h3>FOOTER</h3>
-      <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-    </div>
-  
-    <div class="w3-third">
-      <h3>BLOG POSTS</h3>
-      <ul class="w3-ul w3-hoverable">
-        <li class="w3-padding-16">
-          <img src="/w3images/workshop.jpg" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">Lorem</span><br>
-          <span>Sed mattis nunc</span>
-        </li>
-        <li class="w3-padding-16">
-          <img src="/w3images/gondol.jpg" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">Ipsum</span><br>
-          <span>Praes tinci sed</span>
-        </li> 
-      </ul>
+  <body>
+    <div class="grid">
+      <h1>Calls Echo Demo</h1>
+      <div>
+        <h2>Local stream</h2>
+        <video id="local-video" autoplay muted></video>
+      </div>
+      <div>
+        <h2>Remote echo stream</h2>
+        <video id="remote-video" autoplay></video>
+      </div>
     </div>
 
-    <div class="w3-third w3-serif">
-      <h3>POPULAR TAGS</h3>
-      <p>
-        <span class="w3-tag w3-black w3-margin-bottom">Travel</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New York</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dinner</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Salmon</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">France</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Drinks</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ideas</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Flavors</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Cuisine</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Chicken</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dressing</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fried</span>
-        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fish</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Duck</span>
-      </p>
-    </div>
-  </footer>
 
-<!-- End page content -->
-</div>
+    <script type="module">
+      // This is a class the defines the Calls API interactions.
+      // It's not an SDK but a example of how Calls API can be used.
 
-<script>
-// Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-}
- 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-}
-</script>
 
-</body>
+      // This is the App Id provided by the dashboard that identifies this Calls Application.
+      const appId = 'cf5e31c2ca6dbf6b0b3145a5fd6ff1bd';
+      // DO NOT USE YOUR SECRET IN THE BROWSER FOR PRODUCTION. It should be kept and used server-side.
+      const appSecret = 'ee8976d911ba8a9fd063d89b57891ec0ba4f3d4dbe9a019b9ff8337df0ea3a66';
+
+
+      class CallsApp {
+        constructor(appId, basePath = 'https://rtc.live.cloudflare.com/v1') {
+          this.prefixPath = `${basePath}/apps/${appId}`;
+        }
+
+
+        async sendRequest(url, body, method = 'POST') {
+          const request = {
+            method: method,
+            mode: 'cors',
+            headers: {
+              'content-type': 'application/json',
+              Authorization: `Bearer ${appSecret}`
+            },
+            body: JSON.stringify(body)
+          };
+          const response = await fetch(url, request);
+          const result = await response.json();
+          return result;
+        }
+
+
+        checkErrors(result, tracksCount = 0) {
+          if (result.errorCode) {
+            throw new Error(result.errorDescription);
+          }
+          for (let i = 0; i < tracksCount; i++) {
+            if (result.tracks[i].errorCode) {
+              throw new Error(
+                `tracks[${i}]: ${result.tracks[i].errorDescription}`
+              );
+            }
+          }
+        }
+
+
+        // newSession sends the initial offer and creates a session
+        async newSession(offerSDP) {
+          const url = `${this.prefixPath}/sessions/new`;
+          const body = {
+            sessionDescription: {
+              type: 'offer',
+              sdp: offerSDP
+            }
+          };
+          const result = await this.sendRequest(url, body);
+          this.checkErrors(result);
+          this.sessionId = result.sessionId;
+          return result;
+        }
+
+
+        // newTracks shares local tracks or gets tracks
+        async newTracks(trackObjects, offerSDP = null) {
+          const url = `${this.prefixPath}/sessions/${this.sessionId}/tracks/new`;
+          const body = {
+            sessionDescription: {
+              type: 'offer',
+              sdp: offerSDP
+            },
+            tracks: trackObjects
+          };
+          if (!offerSDP) {
+            delete body['sessionDescription'];
+          }
+          const result = await this.sendRequest(url, body);
+          this.checkErrors(result, trackObjects.length);
+          return result;
+        }
+
+
+        // sendAnswerSDP sends an answer SDP if a renegotiation is required
+        async sendAnswerSDP(answer) {
+          const url = `${this.prefixPath}/sessions/${this.sessionId}/renegotiate`;
+          const body = {
+            sessionDescription: {
+              type: 'answer',
+              sdp: answer
+            }
+          };
+          const result = await this.sendRequest(url, body, 'PUT');
+          this.checkErrors(result);
+        }
+      }
+
+
+      // Use Cloudflare's STUN server
+      self.pc = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: 'stun:stun.cloudflare.com:3478'
+          }
+        ],
+        bundlePolicy: 'max-bundle'
+      });
+
+
+      // In order to successfully establish a peer connection, we need at least one track to publish.
+      // In this case, we create two: video & audio
+      const localStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+
+
+      // Get the local video element in the HTML and set the source to show local stream
+      const localVideoElement = document.getElementById('local-video');
+      localVideoElement.srcObject = localStream;
+
+
+      // Add sendonly trancievers to the PeerConnection
+      self.transceivers = localStream.getTracks().map(track =>
+        self.pc.addTransceiver(track, {
+          direction: 'sendonly'
+        })
+      );
+
+
+      // Create a instance of CallsApp (defined below). Please note that this is not an official SDK but just a demo showing the HTML API.
+      self.app = new CallsApp(appId);
+
+
+      // Send the first offer and create a session. The returned sessionId is required to retrieve any track published by this peer
+      await self.pc.setLocalDescription(await self.pc.createOffer());
+      const newSessionResult = await self.app.newSession(
+        self.pc.localDescription.sdp
+      );
+      await self.pc.setRemoteDescription(
+        new RTCSessionDescription(newSessionResult.sessionDescription)
+      );
+
+
+      // Make the peer connection was established
+      await new Promise((resolve, reject) => {
+        self.pc.addEventListener('iceconnectionstatechange', ev => {
+          if (ev.target.iceConnectionState === 'connected') {
+            resolve();
+          }
+          setTimeout(reject, 5000, 'connect timeout');
+        });
+      });
+
+
+      // We associate a trackName to a transceiver identified by a mid (media ID). This way the track
+      // is remotely reachable by the tuple (sessionId, trackName)
+      let trackObjects = self.transceivers.map(transceiver => {
+        return {
+          location: 'local',
+          mid: transceiver.mid,
+          trackName: transceiver.sender.track.id
+        };
+      });
+
+
+      // Get local description, create a new track, set remote description with the response
+      await self.pc.setLocalDescription(await self.pc.createOffer());
+      const newLocalTracksResult = await self.app.newTracks(
+        trackObjects,
+        self.pc.localDescription.sdp
+      );
+      await self.pc.setRemoteDescription(
+        new RTCSessionDescription(newLocalTracksResult.sessionDescription)
+      );
+
+
+      // At this point in code, we are successfully sending local stream to Cloudflare Calls.
+      // Now, we will pull the same stream from Cloudflare Calls.
+
+
+      // Update trackObjects to reference the tracks as "remote"
+      trackObjects = trackObjects.map(trackObject => {
+        return {
+          location: 'remote',
+          sessionId: self.app.sessionId,
+          trackName: trackObject.trackName
+        };
+      });
+
+
+      // Prepare to receive the tracks before asking for them
+      const remoteTracksPromise = new Promise(resolve => {
+        let tracks = [];
+        self.pc.ontrack = event => {
+          tracks.push(event.track);
+          console.debug(`Got track mid=${event.track.mid}`);
+          if (tracks.length >= 2) {
+            // remote video & audio are ready
+            resolve(tracks);
+          }
+        };
+      });
+
+
+      // Calls API request to ask for the tracks
+      const newRemoteTracksResult = await self.app.newTracks(trackObjects);
+      if (newRemoteTracksResult.requiresImmediateRenegotiation) {
+        switch (newRemoteTracksResult.sessionDescription.type) {
+          case 'offer':
+            // We let Cloudflare know we're ready to receive the tracks
+            await self.pc.setRemoteDescription(
+              new RTCSessionDescription(
+                newRemoteTracksResult.sessionDescription
+              )
+            );
+            await self.pc.setLocalDescription(await self.pc.createAnswer());
+            await self.app.sendAnswerSDP(self.pc.localDescription.sdp);
+            break;
+          case 'answer':
+            throw new Error('An offer SDP was expected');
+        }
+      }
+
+
+      // Once started receiving the tracks (video & audio) send the data to the video tag
+      const remoteTracks = await remoteTracksPromise;
+      const remoteVideoElement = document.getElementById('remote-video');
+      const remoteStream = new MediaStream();
+      remoteStream.addTrack(remoteTracks[0]);
+      remoteStream.addTrack(remoteTracks[1]);
+      remoteVideoElement.srcObject = remoteStream;
+    </script>
+    <style>
+      /* Styles are safe to ignore, just here for demo */
+
+
+      html {
+        color-scheme: light dark;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          'Open Sans',
+          'Helvetica Neue',
+          sans-serif;
+        background: white;
+        color: black;
+      }
+      body,
+      h1,
+      h2 {
+        margin: 0;
+      }
+      h1,
+      h2 {
+        font-weight: 400;
+      }
+      h1 {
+        font-size: 1.5rem;
+        grid-column: 1 / -1;
+      }
+      h2 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      video {
+        width: 100%;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1rem;
+      }
+
+
+      @media (max-width: 500px) {
+        .grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+    </style>
+  </body>
 </html>
+
