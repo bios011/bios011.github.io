@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnificent Pool Table Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100%;
+            height: 100vh;
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #info h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        #info p {
+            margin: 5px 0;
+            color: #cccccc;
+        }
+        #info button {
+            margin: 5px;
+            padding: 8px 15px;
+            background-color: #ffd700;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        #info button:hover {
+            background-color: #ffcc00;
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+        #info button.active {
+            background-color: #ffcc00;
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+        #power-meter {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 200px;
+        }
+        #power-meter label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        #power-meter input[type="range"] {
+            width: 100%;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            appearance: none;
+        }
+        #power-meter input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        #power-meter #power-value {
+            text-align: right;
+            margin-top: 5px;
+            color: #cccccc;
+            font-size: 12px;
+        }
+        #game-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: right;
+        }
+        #game-info p {
+            margin: 5px 0;
+            color: #cccccc;
+            font-size: 14px;
+        }
+        #game-info p strong {
+            color: #ffd700;
+        }
+        #camera-instructions {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="info">
+        <h1>Magnificent Pool Table Simulator</h1>
+        <p>Cue Ball: White | Object Ball: Red | Target: Blue</p>
+        <button id="zoom-toggle">Toggle Zoom</button>
+        <button id="topdown-toggle">Toggle Top-Down View</button>
+        <button id="trajectory-toggle">Toggle Trajectory</button>
+        <button id="reset">Reset Game</button>
+    </div>
+    <div id="power-meter">
+        <label for="power">Power:</label>
+        <input type="range" id="power" min="1" max="100" value="50">
+        <div id="power-value">50%</div>
+    </div>
+    <div id="game-info">
+        <p><strong>Current Player:</strong> <span id="current-player">Player 1</span></p>
+        <p><strong>Score - Player 1:</strong> <span id="player1-score">0</span></p>
+        <p><strong>Score - Player 2:</strong> <span id="player2-score">0</span></p>
+        <p><strong>Ball Count:</strong> <span id="ball-count">2</span></p>
+    </div>
+    <div id="camera-instructions">
+        Mouse: Rotate Camera | Scroll: Zoom
+    </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.159.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Game state variables
+        let currentPlayer = 1;
+        let player1Score = 0;
+        let player2Score = 0;
+        let cueBallInHand = true;
+        let shotPower = 50;
+        let shotDirection = null;
+        let trajectoryLine = null;
+        let trajectoryPoints = 20;
+        let trajectoryDuration = 2;
+        let canShoot = true;
+        
+        // Initialize Three.js scene, camera, renderer, and controls
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x333333);
+        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('canvas'),
+            antialias: true
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        
+        // Add orbit controls for camera rotation
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 50;
+        controls.minDistance = 5;
+        
+        // Add ambient and directional light
+        const ambientLight = new THREE.AmbientLight(0x404040, 1);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(5, 10, 5);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 50;
+        directionalLight.shadow.camera.left = -10;
+        directionalLight.shadow.camera.right = 10;
+        directionalLight.shadow.camera.top = 10;
+        directionalLight.shadow.camera.bottom = -10;
+        scene.add(directionalLight);
+        
+        // Pool table dimensions
+        const tableWidth = 20;
+        const tableDepth = 10;
+        const tableHeight = 2;
+        
+        // Create the pool table
+        const tableGeometry = new THREE.BoxGeometry(tableWidth, tableHeight, tableDepth);
+        const tableMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x004d00,
+            roughness: 0.4,
+            metalness: 0.2
+        });
+        const table = new THREE.Mesh(tableGeometry, tableMaterial);
+        table.position.y = -tableHeight/2;
+        table.receiveShadow = true;
+        scene.add(table);
+        
+        // Create the pool table cushions
+        const cushionHeight = 1;
+        const cushionThickness = 0.5;
+        
+        // Front and back cushions
+        const cushionFrontGeometry = new THREE.BoxGeometry(tableWidth, cushionHeight, cushionThickness);
+        const cushionBackGeometry = new THREE.BoxGeometry(tableWidth, cushionHeight, cushionThickness);
+        const cushionMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x8B4513,
+            roughness: 0.6,
+            metalness: 0.1
+        });
+        
+        const cushionFront = new THREE.Mesh(cushionFrontGeometry, cushionMaterial);
+        cushionFront.position.set(0, cushionHeight/2 - tableHeight/2, tableDepth/2 + cushionThickness/2);
+        cushionFront.castShadow = true;
+        cushionFront.receiveShadow = true;
+        scene.add(cushionFront);
+        
+        const cushionBack = new THREE.Mesh(cushionBackGeometry, cushionMaterial);
+        cushionBack.position.set(0, cushionHeight/2 - tableHeight/2, -tableDepth/2 - cushionThickness/2);
+        cushionBack.castShadow = true;
+        cushionBack.receiveShadow = true;
+        scene.add(cushionBack);
+        
+        // Left and right cushions
+        const cushionLeftGeometry = new THREE.BoxGeometry(cushionThickness, cushionHeight, tableDepth + 2 * cushionThickness);
+        const cushionRightGeometry = new THREE.BoxGeometry(cushionThickness, cushionHeight, tableDepth + 2 * cushionThickness);
+        
+        const cushionLeft = new THREE.Mesh(cushionLeftGeometry, cushionMaterial);
+        cushionLeft.position.set(-tableWidth/2 - cushionThickness/2, cushionHeight/2 - tableHeight/2, 0);
+        cushionLeft.castShadow = true;
+        cushionLeft.receiveShadow = true;
+        scene.add(cushionLeft);
+        
+        const cushionRight = new THREE.Mesh(cushionRightGeometry, cushionMaterial);
+        cushionRight.position.set(tableWidth/2 + cushionThickness/2, cushionHeight/2 - tableHeight/2, 0);
+        cushionRight.castShadow = true;
+        cushionRight.receiveShadow = true;
+        scene.add(cushionRight);
+        
+        // Create pockets
+        const pocketGeometry = new THREE.CylinderGeometry(1, 1, 0.5, 32);
+        const pocketMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+        
+        // Corner pockets
+        const pocket1 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket1.position.set(-tableWidth/2, -tableHeight/2 + 0.2, tableDepth/2);
+        pocket1.rotation.x = Math.PI / 2;
+        scene.add(pocket1);
+        
+        const pocket2 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket2.position.set(tableWidth/2, -tableHeight/2 + 0.2, tableDepth/2);
+        pocket2.rotation.x = Math.PI / 2;
+        scene.add(pocket2);
+        
+        const pocket3 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket3.position.set(-tableWidth/2, -tableHeight/2 + 0.2, -tableDepth/2);
+        pocket3.rotation.x = Math.PI / 2;
+        scene.add(pocket3);
+        
+        const pocket4 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket4.position.set(tableWidth/2, -tableHeight/2 + 0.2, -tableDepth/2);
+        pocket4.rotation.x = Math.PI / 2;
+        scene.add(pocket4);
+        
+        // Middle pockets
+        const pocket5 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket5.position.set(0, -tableHeight/2 + 0.2, tableDepth/2);
+        pocket5.rotation.x = Math.PI / 2;
+        scene.add(pocket5);
+        
+        const pocket6 = new THREE.Mesh(pocketGeometry, pocketMaterial);
+        pocket6.position.set(0, -tableHeight/2 + 0.2, -tableDepth/2);
+        pocket6.rotation.x = Math.PI / 2;
+        scene.add(pocket6);
+        
+        // Create the cue ball
+        const cueBallGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const cueBallMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xffffff,
+            roughness: 0.1,
+            metalness: 0.3
+        });
+        const cueBall = new THREE.Mesh(cueBallGeometry, cueBallMaterial);
+        cueBall.position.set(0, 0.5, 0);
+        cueBall.castShadow = true;
+        scene.add(cueBall);
+        
+        // Create the object ball (red)
+        const objectBallGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const objectBallMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xff0000,
+            roughness: 0.1,
+            metalness: 0.3
+        });
+        const objectBall = new THREE.Mesh(objectBallGeometry, objectBallMaterial);
+        objectBall.position.set(2, 0.5, 0);
+        objectBall.castShadow = true;
+        scene.add(objectBall);
+        
+        // Create the target ball (blue)
+        const targetBallGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const targetBallMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x0000ff,
+            roughness: 0.1,
+            metalness: 0.3
+        });
+        const targetBall = new THREE.Mesh(targetBallGeometry, targetBallMaterial);
+        targetBall.position.set(-4, 0.5, 0);
+        targetBall.castShadow = true;
+        scene.add(targetBall);
+        
+        // Create the pool stick
+        const stickGeometry = new THREE.CylinderGeometry(0.1, 0.1, 12, 32);
+        const stickMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x8B4513,
+            roughness: 0.4,
+            metalness: 0.2
+        });
+        const stick = new THREE.Mesh(stickGeometry, stickMaterial);
+        stick.position.set(0, 0.5, 0);
+        stick.castShadow = true;
+        scene.add(stick);
+        
+        // Create the aiming line
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0.5, 0),
+            new THREE.Vector3(0, 0.5, -5)
+        ]);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const aimingLine = new THREE.Line(lineGeometry, lineMaterial);
