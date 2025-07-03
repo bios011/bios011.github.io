@@ -134,10 +134,10 @@ function openMenu(evt, menuName) {
   }
   tablinks = document.getElementsByClassName("tablink");
   for (i = 0; i < x.length; i++) {
-     tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+     tablinks[i].className = tablinks[i].className.replace(" bi01-red", "");
   }
   document.getElementById(menuName).style.display = "block";
-  evt.currentTarget.firstElementChild.className += " w3-red";
+  evt.currentTarget.firstElementChild.className += " bi01-red";
 }
 document.getElementById("myLink").click();
 </script>
